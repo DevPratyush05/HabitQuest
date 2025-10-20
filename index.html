@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#111117" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="HabitQuest" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>HabitQuest</title>
+
+    <style>
+      :root {
+        --primary-bg: #0b0b0f;
+        --secondary-bg: #111117;
+        --text: #ffffff;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--primary-bg);
+        color: var(--text);
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      input,
+      textarea,
+      select {
+        font-size: 16px;
+      }
+
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.3s ease;
+      }
+
+      .loading-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+      <div style="text-align: center">
+        <div style="font-size: 3rem; margin-bottom: 1rem">🎯</div>
+        <h2>HabitQuest</h2>
+        <p>Loading your adventure...</p>
+      </div>
+    </div>
+
+    <header>
+      <h1>HabitQuest</h1>
+      <div class="xp-bar">
+        <div class="xp-fill" id="xpFill"></div>
+      </div>
+      <span id="xpText">Level: 1 | XP: 0</span>
+    </header>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-page="home">🎯 Home</button>
+      <button class="nav-btn" data-page="habits">📋 Quests</button>
+      <button class="nav-btn" data-page="achievements">🏆 Rewards</button>
+      <button class="nav-btn" data-page="profile">👤 Profile</button>
+    </nav>
+
+    <main>
+      <!-- Gender Selection Page -->
+      <section id="genderPage" class="page">
+        <div class="gender-selection">
+          <h2>Choose Your Character</h2>
+          <p>Select your character to begin your habit-building journey!</p>
+
+          <div class="gender-options">
+            <div class="gender-option" data-gender="male">
+              <div class="gender-avatar">🦸‍♂️</div>
+              <h3>Male</h3>
+              <p>Knight of Habits</p>
+            </div>
+
+            <div class="gender-option" data-gender="female">
+              <div class="gender-avatar">🦸‍♀️</div>
+              <h3>Female</h3>
+              <p>Guardian of Goals</p>
+            </div>
+
+            <div class="gender-option" data-gender="non-binary">
+              <div class="gender-avatar">🧙‍♂️</div>
+              <h3>Non-Binary</h3>
+              <p>Hero of Progress</p>
+            </div>
+          </div>
+
+          <button id="confirmGenderBtn" class="primary-btn" disabled>
+            Start Your Journey
+          </button>
+        </div>
+      </section>
+
+      <!-- Home Page -->
+      <section id="homePage" class="page active">
+        <section class="avatar-section">
+          <div class="avatar-container">
+            <div id="characterAvatar" class="avatar emoji-avatar">👤</div>
+            <div class="level-badge">Lvl <span id="currentLevel">1</span></div>
+          </div>
+        </section>
+
+        <section class="daily-quests">
+          <h2>Today's Quests</h2>
+          <div id="dailyQuests" class="quests-list"></div>
+        </section>
+
+        <section class="stats">
+          <div class="stat-card">
+            <h3>Current Streak</h3>
+            <span id="currentStreak">0 days</span>
+          </div>
+          <div class="stat-card">
+            <h3>Total Completed</h3>
+            <span id="totalCompleted">0 habits</span>
+          </div>
+        </section>
+      </section>
+
+      <!-- Habits Page -->
+      <section id="habitsPage" class="page">
+        <section class="habit-section">
+          <h2>Your Quests</h2>
+          <div class="habit-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="daily">Daily</button>
+            <button class="filter-btn" data-filter="weekly">Weekly</button>
+          </div>
+          <ul id="habitList"></ul>
+          <button id="addHabitBtn" class="primary-btn">+ Add New Quest</button>
+        </section>
+      </section>
+
+      <!-- Achievements Page -->
+      <section id="achievementsPage" class="page">
+        <div class="achievements-section">
+          <h2>Achievements</h2>
+          <div id="achievementsList" class="achievements-grid"></div>
+        </div>
+      </section>
+
+      <!-- Profile Page -->
+      <section id="profilePage" class="page">
+        <div class="profile-section">
+          <h2>Your Profile</h2>
+          <div class="profile-stats">
+            <div class="profile-stat">
+              <label>Total XP:</label>
+              <span id="profileXP">0</span>
+            </div>
+            <div class="profile-stat">
+              <label>Highest Level:</label>
+              <span id="profileLevel">1</span>
+            </div>
+            <div class="profile-stat">
+              <label>Longest Streak:</label>
+              <span id="longestStreak">0 days</span>
+            </div>
+          </div>
+          <div class="settings">
+            <h3>Settings</h3>
+            <label class="switch">
+              <input type="checkbox" id="darkModeToggle" checked />
+              <span class="slider"></span>
+              Dark Mode
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="soundToggle" />
+              <span class="slider"></span>
+              Sound Effects
+            </label>
+            <button id="exportDataBtn" class="secondary-btn">
+              Export Data
+            </button>
+            <button id="resetDataBtn" class="danger-btn">Reset All Data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Add Habit Modal -->
+    <div id="habitModal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Add New Quest</h3>
+        <input
+          type="text"
+          id="habitName"
+          placeholder="Quest name (e.g., Morning Meditation)"
+        />
+        <textarea
+          id="habitDescription"
+          placeholder="Description (optional)"
+        ></textarea>
+        <div class="form-group">
+          <label>Frequency:</label>
+          <select id="habitFrequency">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="habitReminder" />
+            Enable Reminder
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button id="saveHabitBtn" class="primary-btn">Save Quest</button>
+          <button id="cancelHabitBtn" class="secondary-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievement Unlocked Modal -->
+    <div id="achievementModal" class="modal hidden">
+      <div class="modal-content achievement-unlocked">
+        <div class="achievement-icon">🏆</div>
+        <h3>Achievement Unlocked!</h3>
+        <p id="achievementTitle"></p>
+        <p id="achievementDesc"></p>
+        <button id="closeAchievementBtn" class="primary-btn">Awesome!</button>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal hidden">
+      <div class="modal-content">
+        <h3 id="confirmationTitle">Confirm Action</h3>
+        <p id="confirmationMessage"></p>
+        <div class="modal-actions">
+          <button id="confirmYesBtn" class="danger-btn">Yes</button>
+          <button id="confirmNoBtn" class="secondary-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Habit Confirmation Modal -->
+    <div id="deleteHabitModal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Delete Quest</h3>
+        <p id="deleteHabitMessage">
+          Are you sure you want to delete this quest? This action cannot be
+          undone.
+        </p>
+        <div class="modal-actions">
+          <button id="confirmDeleteBtn" class="danger-btn">Delete Quest</button>
+          <button id="cancelDeleteBtn" class="secondary-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="completeSound" preload="auto"></audio>
+    <audio id="levelUpSound" preload="auto"></audio>
+    <audio id="achievementSound" preload="auto"></audio>
+
+    <script src="js/db.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/sounds.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

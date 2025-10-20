@@ -1,0 +1,422 @@
+/* path: /css/style.css */
+:root {
+  --primary-bg: #0b0b0f;
+  --secondary-bg: #111117;
+  --card-bg: #222;
+  --accent: #4caf50;
+  --accent-light: #81c784;
+  --text: #fff;
+  --text-secondary: #ccc;
+  --danger: #f44336;
+  --warning: #ff9800;
+}
+
+[data-theme="light"] {
+  --primary-bg: #f0f0f0;
+  --secondary-bg: #ffffff;
+  --card-bg: #e0e0e0;
+  --accent: #2196f3;
+  --accent-light: #64b5f6;
+  --text: #333;
+  --text-secondary: #666;
+  --danger: #d32f2f;
+  --warning: #f57c00;
+}
+
+* {
+  box-sizing: border-box;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--primary-bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-bottom: 70px; /* Space for bottom nav */
+}
+
+header {
+  width: 100%;
+  background: var(--secondary-bg);
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.xp-bar {
+  width: 90%;
+  max-width: 400px;
+  height: 16px;
+  background: #333;
+  border-radius: 8px;
+  margin: 0.5rem auto;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.xp-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  border-radius: 8px;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--secondary-bg);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  border-top: 1px solid #333;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-btn.active {
+  color: var(--accent);
+  background: rgba(76, 175, 80, 0.1);
+}
+
+/* Pages */
+main {
+    width: 100%;
+    max-width: 600px;
+}
+
+.page {
+  display: none;
+  width: 100%;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Avatar Section */
+.avatar-section {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid var(--accent);
+  transition: all 0.3s ease;
+  object-fit: cover;
+}
+
+.level-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: var(--accent);
+  color: white;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* Stats Section */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  border-left: 4px solid var(--accent);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.stat-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.stat-card span {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* Habits List */
+.habit-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--card-bg);
+  background: var(--secondary-bg);
+  color: var(--text);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+#habitList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.habit-item {
+  background: var(--card-bg);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 5px solid var(--accent);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.habit-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.habit-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.habit-meta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 1rem;
+}
+
+.habit-streak {
+  color: var(--warning);
+  font-weight: bold;
+}
+
+.complete-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+  box-shadow: 0 3px 0 var(--accent-light);
+}
+
+.complete-btn:hover {
+  background: var(--accent-light);
+}
+
+.complete-btn:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+/* General Buttons */
+#addHabitBtn, .primary-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.secondary-btn, .danger-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.2s;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.danger-btn {
+  background: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+}
+
+/* Modals */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+
+.hidden { display: none; }
+
+.modal-content {
+  background: var(--secondary-bg);
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  border: 1px solid #333;
+}
+
+.modal:not(.hidden) .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.achievement-unlocked {
+  text-align: center;
+  background: linear-gradient(135deg, var(--secondary-bg), #1a1a2e);
+  border: 3px solid gold;
+}
+
+.achievement-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulseGold 1.5s infinite;
+}
+
+@keyframes pulseGold {
+  0% { transform: scale(1); color: gold; }
+  50% { transform: scale(1.1); color: var(--warning); }
+  100% { transform: scale(1); color: gold; }
+}
+
+/* Achievements */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.achievement-card {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.achievement-card.unlocked {
+  border-color: gold;
+  background: linear-gradient(135deg, var(--card-bg), #2a2a3a);
+}
+
+.achievement-icon-small {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.achievement-card h4 {
+  margin: 0.5rem 0 0.2rem 0;
+  font-size: 1rem;
+}
+
+/* Notifications (Toasts) */
+.toast {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { right: -100%; opacity: 0; }
+  to { right: 20px; opacity: 1; }
+}
+@keyframes slideOut {
+  from { right: 20px; opacity: 1; }
+  to { right: -100%; opacity: 0; }
+}
+
+.no-habits, .no-quests {
+    color: var(--text-secondary);
+    padding: 1rem;
+    text-align: center;
+    border: 1px dashed var(--text-secondary);
+    border-radius: 10px;
+    margin-top: 1rem;
+}
